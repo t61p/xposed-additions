@@ -1,22 +1,30 @@
+/*
+ * This file is part of the Xposed Additions Project: https://github.com/spazedog/xposed-additions
+ *  
+ * Copyright (c) 2015 Daniel Bergløv
+ *
+ * Xposed Additions is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Xposed Additions is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with Xposed Additions. If not, see <http://www.gnu.org/licenses/>
+ */
+
 package com.spazedog.xposed.additionsgb.utils;
 
 public final class Constants {
 	
-	/*
-	 * Let's start replacing the Common class with the utils package
-	 */
+	public static final String PACKAGE_NAME = "com.spazedog.xposed.additionsgb";
+	public static final String PERMISSION_SETTINGS_RW = "permissions.additionsgb.settings.rw";
+	public static final String SERVICE_MODULE_SETTINGS = "user.additionsgb.settings.service";
+	public static final String SERVICE_APP_PREFERENCES = "app.additionsgb.preferences.service.BIND";
+	public static final String SERVICE_APP_TORCH = "app.additionsgb.torch.service.TOGGLE";
+	public static final String FILE_APP_PREFERENCES = "config";
 	
-	public static final class Intent {
-		/*
-		 * Making our own replacement for Android's onBoot broadcast, we can get the app triggered
-		 * much sooner so that configs are restored earlier. It also removes the chance of things like XPrivacy or other similar 
-		 * apps causing problems due to blocking of this broadcast. 
-		 * 
-		 * Also Android's shutdown broadcast is not always triggered and then there are devices like HTC 
-		 * that has multiple versions of their own. 
-		 * 
-		 */
-		public static final String ACTION_XSERVICE_READY = "com.spazedog.xposed.additionsgb.ACTION_XSERVICE_READY";
-		public static final String ACTION_XSERVICE_SHUTDOWN = "com.spazedog.xposed.additionsgb.ACTION_XSERVICE_SHUTDOWN";
-	}
+	public static final boolean FORCE_DEBUG = false;
 }

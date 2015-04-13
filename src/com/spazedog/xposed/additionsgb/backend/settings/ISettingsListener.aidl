@@ -1,7 +1,7 @@
 /*
  * This file is part of the Xposed Additions Project: https://github.com/spazedog/xposed-additions
  *  
- * Copyright (c) 2014 Daniel Bergløv
+ * Copyright (c) 2015 Daniel Bergløv
  *
  * Xposed Additions is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Xposed Additions. If not, see <http://www.gnu.org/licenses/>
  */
-
-package com.spazedog.xposed.additionsgb.backend.service;
-
-
+ 
+package com.spazedog.xposed.additionsgb.backend.settings;
 
 /** {@hide} */
-oneway interface IXServiceChangeListener {
-	void onPreferenceDataSetChanged();
+oneway interface ISettingsListener {
+
 	void onPreferenceChanged(String key, int type);
 	void onPreferenceRemoved(String key);
-	void onPackageChanged();
-	void onBroadcastReceive(String action, in Bundle data);
+	
+	void onSettingsBroadcast(String action, in Bundle data);
 }
