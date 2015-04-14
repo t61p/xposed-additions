@@ -5,13 +5,13 @@
     	 	BASIC APP CONDITIONS
     -->
     
-    <color name="appColorPrimary">#2196F3</color>
-    <color name="appColorSecondary">#0D47A1</color>
+    <color name="appColorPrimary">#424242</color>
+    <color name="appColorSecondary">#212121</color>
     
-    <color name="accentColorPrimary">#4CAF50</color>
-    <color name="accentColorSecondary">#C8E6C9</color>
-    <color name="accentColorControlHighlight">#404CAF50</color>
-    <color name="accentColorControlActivated">#D94CAF50</color>
+    <color name="accentColorPrimary">#E0E0E0</color>
+    <color name="accentColorSecondary">#BDBDBD</color>
+    <color name="accentColorControlHighlight">#40E0E0E0</color>
+    <color name="accentColorControlActivated">#D9E0E0E0</color>
     
     <color name="backgroundColorPrimary">#FFFFFF</color>
     <color name="backgroundColorSecondary">#FAFAFA</color>
