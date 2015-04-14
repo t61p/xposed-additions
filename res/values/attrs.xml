@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- ====================================================
+    	 	BASIC APP ATTRIBUTES
+    -->
+    
+    <attr name="appColorPrimary" format="reference|color" />
+    <attr name="appColorSecondary" format="reference|color" />
+    
+    <attr name="accentColorPrimary" format="reference|color" />
+    <attr name="accentColorSecondary" format="reference|color" />
+    <attr name="accentColorControlHighlight" format="reference|color" />
+    <attr name="accentColorControlActivated" format="reference|color" />
+    
+    <attr name="backgroundColorPrimary" format="reference|color" />
+    <attr name="backgroundColorSecondary" format="reference|color" />
+    
+    <attr name="textColorPrimary" format="reference|color" />
+    <attr name="textColorPrimaryEnabled" format="reference|color" />
+    <attr name="textColorPrimaryDisabled" format="reference|color" />
+    
+    <attr name="textColorSecondary" format="reference|color" />
+    <attr name="textColorSecondaryEnabled" format="reference|color" />
+    <attr name="textColorSecondaryDisabled" format="reference|color" />
+    
+    <attr name="textColorPrimaryInverted" format="reference|color" />
+    <attr name="textColorPrimaryInvertedEnabled" format="reference|color" />
+    <attr name="textColorPrimaryInvertedDisabled" format="reference|color" />
+    
+    <attr name="textColorSecondaryInverted" format="reference|color" />
+    <attr name="textColorSecondaryInvertedEnabled" format="reference|color" />
+    <attr name="textColorSecondaryInvertedDisabled" format="reference|color" />
+    
+    <attr name="textSizeHeader" format="reference|dimension" />
+    <attr name="textSizeTitle" format="reference|dimension" />
+    <attr name="textSizeNormal" format="reference|dimension" />
+    <attr name="textSizeSummary" format="reference|dimension" />
+    
+    <attr name="layoutMaxWidth" format="reference|dimension" />
+    <attr name="layoutPaddingVertical" format="reference|dimension" />
+    <attr name="layoutPaddingHorizontal" format="reference|dimension" />
+    <attr name="layoutMarginTop" format="reference|dimension" />
+    <attr name="layoutMarginBottom" format="reference|dimension" />
+    <attr name="layoutMarginLeft" format="reference|dimension" />
+    <attr name="layoutMarginRight" format="reference|dimension" />
+
+    <attr name="drawerWidth" format="reference|dimension" />
+    <attr name="drawerPaddingVertical" format="reference|dimension" />
+    <attr name="drawerPaddingHorizontal" format="reference|dimension" />
+    <attr name="drawerSpaceBetweenLayout" format="reference|dimension" />
+    
+    <attr name="contentPaddingVertical" format="reference|dimension" />
+    <attr name="contentPaddingHorizontal" format="reference|dimension" />
+    <attr name="contentDividerPadding" format="reference|dimension" />
+    <attr name="contentSeparaterSpace" format="reference|dimension" />
+    <attr name="contentSpaceBetweenGroups" format="reference|dimension" />
+    <attr name="contentSpaceBetweenGroupsCombat" format="reference|dimension" />
+    <attr name="contentGroupElevation" format="reference|dimension" />
+    
+    <attr name="textAppearance" format="reference" />
+    <attr name="textAppearanceInverted" format="reference" />
+    <attr name="textAppearanceSummary" format="reference" />
+    <attr name="textAppearanceSummaryInverted" format="reference" />
+    <attr name="textAppearanceTitle" format="reference" />
+    <attr name="textAppearanceTitleInverted" format="reference" />
+    <attr name="textAppearanceActionBarTitle" format="reference" />
+    <attr name="textAppearanceTitleGrouped" format="reference" />
+    
+    <attr name="itemSelectableBackground" format="reference|color" />
+    <attr name="listDividerColor" format="reference|color" />
+    
+    <!-- ====================================================
+    	 	ACTION BAR ATTRIBUTES
+    -->
+    
+    <attr name="actionBarHeight" format="reference|dimension" />
+    <attr name="actionBarMaxWidth" format="reference|dimension" />
+    <attr name="actionBarElevation" format="reference|dimension" />
+    <attr name="actionBarMenuMargin" format="reference|dimension" />
+    <attr name="actionBarMenuPadding" format="reference|dimension" />
+    <attr name="actionBarTitleSize" format="reference|dimension" />
+    <attr name="actionBarTitlePadding" format="reference|dimension" />
+    
+    
+    <!-- ====================================================
+    	 	THEME STYLE REFERENCES
+    -->
+    
+    <!-- <attr name="actionBarStyle" format="reference" /> Exists -->
+    <attr name="actionBarStyleTitle" format="reference" />
+    <attr name="cardViewStyle" format="reference" />
+    <attr name="groupedLayoutStyle" format="reference" />
+    <attr name="widgetViewStyle" format="reference" />
+    
+    
+    <!-- ====================================================
+    		MENU SELECTERS
+    -->
+    
+    <attr name="actionMenuIconNavigation" format="reference" />
+    
+    
+    <!-- ====================================================
+    	 	COMBAT DRAWABLES
+    -->
+    
+    <attr name="actionBarCombatBackground" format="reference" />
+    <attr name="cardViewCombatBackground" format="reference" />
+    
+
+    <!-- ====================================================
+    	 	VIEW ATTRIBUTES
+    -->
+    
+    <declare-styleable name="ViewDimensionOptions">
+        <attr name="layout_dimens_maxWidth" format="reference|dimension" />
+        <attr name="layout_dimens_minWidth" format="reference|dimension" />
+        <attr name="layout_dimens_maxHeight" format="reference|dimension" />
+        <attr name="layout_dimens_minHeight" format="reference|dimension" />
+        
+        <attr name="layout_dimens_setWidthAsHeight" format="boolean" />
+        <attr name="layout_dimens_setHeightAsWidth" format="boolean" />
+    </declare-styleable>
+    
+</resources>

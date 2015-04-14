@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="App.Theme.Material.Light">
+        <!-- 
+        	This has to be placed in this section. 
+        	It will ensure that this attr is replaced in values-v21/themes.xml where we do not need a custom
+        	selector in order to get a custom selection color. 
+         -->
+        <item name="android:selectableItemBackground">@drawable/item_selectable_background</item>
+        <item name="selectableItemBackground">@drawable/item_selectable_background</item>
+    </style>
+    
+</resources>

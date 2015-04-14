@@ -16,7 +16,7 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="Xposed Additions"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/App.Theme.Material.Light" >
         
         <meta-data android:value="true" android:name="xposedmodule" />
         <meta-data android:value="30+" android:name="xposedminversion" />
@@ -35,9 +35,7 @@
         </service>
         
         <activity
-            android:name=".ActivityMain"
-            android:label="Xposed Additions"
-            android:configChanges="orientation|screenSize" >
+            android:name=".ActivityMain">
 
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -45,17 +43,6 @@
             </intent-filter>
             
         </activity>
-        
-        <activity android:label="@string/category_title_buttons" android:name=".ActivityScreenRemapMain" android:configChanges="orientation|screenSize" />
-        <activity android:label="@string/category_title_buttons" android:name=".ActivityScreenRemapKey" android:configChanges="orientation|screenSize" />
-        <activity android:label="@string/category_title_buttons" android:name=".ActivityScreenRemapCondition" android:configChanges="orientation|screenSize" />
-        <activity android:label="@string/category_title_buttons" android:name=".ActivitySelectorRemap" android:configChanges="orientation|screenSize" />
-        
-        <activity android:label="@string/category_title_usbplug" android:name=".ActivityScreenUSB" android:configChanges="orientation|screenSize" />
-        
-        <activity android:label="@string/category_title_layout" android:name=".ActivityScreenLayout" android:configChanges="orientation|screenSize" />
-        
-        <activity android:label="@string/category_title_logviewer" android:name=".ActivityViewerLog" android:configChanges="orientation|screenSize" />
         
     </application>
 

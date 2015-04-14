@@ -19,171 +19,170 @@
 
 package com.spazedog.xposed.additionsgb;
 
-import net.dinglisch.android.tasker.TaskerIntent;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
-import android.os.Build;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import com.spazedog.xposed.additionsgb.utils.abstracts.AbstractActivity;
 
-import com.spazedog.xposed.additionsgb.backend.service.XServiceManager;
-import com.spazedog.xposed.additionsgb.configs.Settings;
-
-public class ActivityMain extends PreferenceActivity implements OnPreferenceClickListener {
+public class ActivityMain extends AbstractActivity {
 	
-	private XServiceManager mPreferences;
+	private ViewGroup mActionBarNavigation;
+	private ViewGroup mActionBarContent;
+	private TextView mActionBarTitle;
 	
-	private Boolean mSetup = false;
+	private DrawerLayout mDrawerLayout;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		addPreferencesFromResource(R.xml.activity_main);
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
+		setContentView(R.layout.activity_main_layout);
 		
-		if (Build.VERSION.SDK_INT >= 14) {
-			LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
-			Toolbar bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.actionbar_v14_layout, root, false);
-			bar.setTitle("Xposed Additions");
+		mActionBarNavigation = (ViewGroup) findViewById(R.id.toolbar_navigation);
+		mActionBarContent = (ViewGroup) findViewById(R.id.toolbar_content);
+		mActionBarTitle = (TextView) findViewById(R.id.toolbar_title);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		
+		if (mDrawerLayout != null) {
+			if (android.os.Build.VERSION.SDK_INT < 21) {
+				mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+			}
 			
-			root.addView(bar, 0);
+			mDrawerLayout.setDrawerListener(new DrawerListener(){
+				@Override
+				public void onDrawerClosed(View arg0) {
+					sendMessage("activity.drawer_opened", false, true);
+				}
+
+				@Override
+				public void onDrawerOpened(View arg0) {
+					sendMessage("activity.drawer_opened", true, true);
+				}
+
+				@Override
+				public void onDrawerSlide(View arg0, float arg1) {}
+
+				@Override
+				public void onDrawerStateChanged(int arg0) {}
+			});
 		}
 	}
-	
-    @Override
-    protected void onStart() {
-    	super.onStart();
-    	
-    	mPreferences = XServiceManager.getInstance();
-    }
 	
     @Override
     protected void onResume() {
     	super.onResume();
-
-    	setup();
-    }
-    
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-	
-    @Override
-    protected void onStop() {
-    	super.onStop();
-
-    	mPreferences = null;
-    }
-    
-    private void setup() {
-    	if (mSetup != (mSetup = true)) {
-    		if (mPreferences == null) {
-	    		new AlertDialog.Builder(this)
-	    		.setTitle(R.string.alert_title_module_disabled)
-	    		.setMessage(R.string.alert_text_module_disabled)
-	    		.setCancelable(false)
-	    		.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-	                public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-	    		})
-	    		.show();
-	    		
-    		} else {
-	    		try {
-	    			if (mPreferences.getVersion() != getPackageManager().getPackageInfo(Common.PACKAGE_NAME, 0).versionCode) {
-	    	    		new AlertDialog.Builder(this)
-	    	    		.setTitle(R.string.alert_title_module_update)
-	    	    		.setMessage(R.string.alert_text_module_update)
-	    	    		.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-	    					@Override
-	    	                public void onClick(DialogInterface dialog, int id) {
-	    						dialog.cancel();
-	    					}
-	    	    		})
-	    	    		.show();
-	    			}
-	    			
-	    		} catch (NameNotFoundException e) {}
-    		}
-    		
-    		if (mPreferences != null && mPreferences.isPackageUnlocked()) {
-    			getPreferenceScreen().removePreference( findPreference("pro_link") );
-    			
-    			if (!mPreferences.getBoolean("tasker_external_information") && TaskerIntent.testStatus(this).equals(TaskerIntent.Status.AccessBlocked)) {
-    	    		new AlertDialog.Builder(this)
-    	    		.setTitle("Tasker Detected")
-    	    		.setMessage("In order to use tasker actions, you need to enable external access in Tasker")
-    	    		.setCancelable(false)
-    	    		.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-    					@Override
-    	                public void onClick(DialogInterface dialog, int id) {
-    						dialog.cancel();
-    					}
-    	    		})
-    	    		.show();
-    	    		
-    	    		mPreferences.putBoolean("tasker_external_information", true);
-    			}
-    			
-    		} else {
-    			findPreference("pro_link").setOnPreferenceClickListener(this);
-    		}
-    		
-    		if (mPreferences != null) {
-	    		findPreference("usbplug_link").setIntent(new Intent(Intent.ACTION_VIEW).setClass(this, ActivityScreenUSB.class));
-	    		findPreference("layout_link").setIntent(new Intent(Intent.ACTION_VIEW).setClass(this, ActivityScreenLayout.class));
-	    		findPreference("buttons_link").setIntent(new Intent(Intent.ACTION_VIEW).setClass(this, ActivityScreenRemapMain.class));
-	    		
-	    		CheckBoxPreference debugPreference = (CheckBoxPreference) findPreference("debug_preference");
-	    		debugPreference.setOnPreferenceClickListener(this);
-	    		debugPreference.setChecked(mPreferences.getBoolean(Settings.DEBUG_ENABLE_LOGGING));
-	    		
-    		} else {
-    			findPreference("options_group").setEnabled(false);
-    			findPreference("settings_group").setEnabled(false);
-    		}
-    		
-    		findPreference("logview_link").setIntent(new Intent(Intent.ACTION_VIEW).setClass(this, ActivityViewerLog.class));
+    	
+    	if (mDrawerLayout != null) {
+    		sendMessage("activity.drawer_opened", mDrawerLayout.isDrawerOpen(GravityCompat.START), true);
     	}
     }
     
-	@Override
-	public boolean onPreferenceClick(Preference preference) {
-		if (preference.getKey().equals("debug_preference")) {
-			Boolean isChecked = ((CheckBoxPreference) preference).isChecked();
-
-			mPreferences.putBoolean(Settings.DEBUG_ENABLE_LOGGING, isChecked, true);
+    public Fragment getCurrentFragment() {
+		return getSupportFragmentManager().findFragmentById(R.id.drawer_content_frame);
+    }
+	
+	public void loadFragment(Fragment fragment, Boolean backStack) {
+		FragmentManager manager = getSupportFragmentManager();
+		String fragmentName = fragment.getClass().getSimpleName();
+		
+		if (!backStack || manager.findFragmentByTag(fragmentName) == null) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.replace(R.id.drawer_content_frame, fragment, fragmentName);
 			
-			return true;
-			
-		} else if (preference.getKey().equals("pro_link")) {
-			try {
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+Common.PACKAGE_NAME_PRO)));
+			if (backStack) {
+				transaction.addToBackStack(null);
 				
-			} catch (android.content.ActivityNotFoundException anfe) {
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id="+Common.PACKAGE_NAME_PRO)));
+			} else if (manager.getBackStackEntryCount() > 0) {
+				manager.popBackStack(manager.getBackStackEntryAt(0).getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			}
+			
+			transaction.commit();
+			
+			if (mDrawerLayout != null) {
+				mDrawerLayout.closeDrawers();
+			}
+		}
+	}
+	
+	@Override
+	public void setTitle(CharSequence title) {
+		if (mActionBarTitle != null) {
+			mActionBarTitle.setText(title);
+		}
+	}
+	
+	@Override
+	public void onReceiveMessage(String message, Object data, Boolean sticky) {
+		if ("internal.fragment_attachment".equals(message) || "internal.backstack_changed".equals(message)) {
+			setupNavigation();
+		}
+	}
+	
+	@SuppressLint("NewApi")
+	private void onNavigationClick(View view) {
+		boolean activated = android.os.Build.VERSION.SDK_INT < 21 ? view.isSelected() : view.isActivated();
+		
+		if (!activated && mDrawerLayout != null) {
+			mDrawerLayout.openDrawer(GravityCompat.START);
+			
+		} else if (activated) {
+			FragmentManager manager = getSupportFragmentManager();
+			manager.popBackStack();
+		}
+	}
+	
+	@SuppressLint("NewApi")
+	private void setupNavigation() {
+		FragmentManager manager = getSupportFragmentManager();
+		
+		if (mDrawerLayout != null || manager.getBackStackEntryCount() > 0) {
+			View view = null;
+			
+			if (mActionBarNavigation.getChildCount() == 0) {
+				LayoutInflater inflater = getLayoutInflater();
+				view = inflater.inflate(R.layout.activity_main_menu_navigation, mActionBarNavigation, false);
+				view.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						onNavigationClick(v);
+					}
+				});
+				
+				mActionBarNavigation.addView(view);
+				
+			} else {
+				view = mActionBarNavigation.getChildAt(0);
 			}
 
-			return true;
+			if (android.os.Build.VERSION.SDK_INT < 21) {
+				view.setSelected(manager.getBackStackEntryCount() > 0);
+				
+			} else {
+				view.setActivated(manager.getBackStackEntryCount() > 0);
+			}
+			
+			mActionBarNavigation.setVisibility(View.VISIBLE);
+			
+		} else {
+			mActionBarNavigation.setVisibility(View.GONE);
 		}
-		
-		return false;
+	}
+	
+	public void addMenuItem(View view) {
+		mActionBarContent.addView(view);
+	}
+	
+	public void removeMenuItem(View view) {
+		mActionBarContent.removeView(view);
 	}
 }

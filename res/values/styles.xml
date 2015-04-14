@@ -1,20 +1,47 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <style name="App.ActionBar" />
+    
+    <style name="App.ActionBar.Panel">
+        <item name="android:layout_height">?attr/actionBarHeight</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">?attr/actionBarCombatBackground</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="App.TextAppearance" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:textSize">?attr/textSizeNormal</item>
+    </style>
+    
+    <style name="App.TextAppearance.Inverted">
+        <item name="android:textColor">?attr/textColorPrimaryInverted</item>
+    </style>
+    
+    <style name="App.TextAppearance.Summary">
+        <item name="android:textColor">?attr/textColorSecondary</item>
+        <item name="android:textSize">?attr/textSizeSummary</item>
+    </style>
+    
+    <style name="App.TextAppearance.Summary.Inverted">
+        <item name="android:textColor">?attr/textColorSecondaryInverted</item>
+    </style>
+    
+    <style name="App.TextAppearance.Title">
+        <item name="android:textSize">?attr/textSizeTitle</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="App.TextAppearance.Title.Inverted">
+        <item name="android:textColor">?attr/textColorPrimaryInverted</item>
+    </style>
+
+    <style name="App.TextAppearance.Title.ActionBar" parent="@style/App.TextAppearance.Inverted">
+        <item name="android:textSize">?attr/actionBarTitleSize</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="App.TextAppearance.Title.Grouped">
+        <item name="android:textColor">?attr/accentColorPrimary</item>
     </style>
 
 </resources>
