@@ -39,9 +39,9 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 import com.spazedog.lib.reflecttools.ReflectClass;
+import com.spazedog.lib.reflecttools.apache.Common;
 import com.spazedog.lib.reflecttools.utils.ReflectConstants.Match;
 import com.spazedog.lib.reflecttools.utils.ReflectException;
-import com.spazedog.xposed.additionsgb.Common;
 import com.spazedog.xposed.additionsgb.IServicePreferences;
 import com.spazedog.xposed.additionsgb.utils.Constants;
 import com.spazedog.xposed.additionsgb.utils.SettingsHelper.SettingsData;
@@ -250,12 +250,12 @@ public final class SettingsService extends ISettingsService.Stub {
 			Utils.log(Level.INFO, TAG, "Finalizig Settings Service");
 
 			try {
-				Context appContext = mContext.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_RESTRICTED);
+				Context appContext = mContext.createPackageContext(Constants.PACKAGE_NAME, Context.CONTEXT_RESTRICTED);
 				
 				/*
 				 * Get the app uid for access check usage
 				 */
-				PackageInfo info = mContext.getPackageManager().getPackageInfo(Common.PACKAGE_NAME, 0);
+				PackageInfo info = mContext.getPackageManager().getPackageInfo(Constants.PACKAGE_NAME, 0);
 				
 				mAppUid = info.applicationInfo.uid;
 				mVersion = info.versionCode;
