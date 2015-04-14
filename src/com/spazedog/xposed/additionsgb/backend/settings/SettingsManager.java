@@ -31,7 +31,6 @@ import android.os.RemoteException;
 
 import com.spazedog.lib.reflecttools.ReflectClass;
 import com.spazedog.lib.reflecttools.utils.ReflectException;
-import com.spazedog.xposed.additionsgb.backend.service.IXService;
 import com.spazedog.xposed.additionsgb.utils.Constants;
 import com.spazedog.xposed.additionsgb.utils.SettingsHelper.Type;
 import com.spazedog.xposed.additionsgb.utils.Utils;
@@ -105,7 +104,7 @@ public final class SettingsManager {
 		try {
 			Utils.log(Level.DEBUG, TAG, "Creating a new SettingsManager instance");
 			
-			ReflectClass service = ReflectClass.forClass(IXService.class).bindInterface(Constants.SERVICE_MODULE_SETTINGS);
+			ReflectClass service = ReflectClass.forClass(ISettingsService.class).bindInterface(Constants.SERVICE_MODULE_SETTINGS);
 			
 			if (service != null) {
 				mService = (ISettingsService) service.getReceiver();
@@ -149,7 +148,7 @@ public final class SettingsManager {
 			
 			try {
 				try {
-					ReflectClass service = ReflectClass.forClass(IXService.class).bindInterface(Constants.SERVICE_MODULE_SETTINGS);
+					ReflectClass service = ReflectClass.forClass(ISettingsService.class).bindInterface(Constants.SERVICE_MODULE_SETTINGS);
 					
 					if (service != null) {
 						mService = (ISettingsService) service.getReceiver();
