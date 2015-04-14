@@ -87,8 +87,7 @@ public class LogcatMonitor {
 				int priority = (Integer) param.args[1];
 				boolean tagHasName = tag != null && tag.contains(Constants.PACKAGE_NAME);
 				
-				//if (tagHasName || (priority == ERROR && message.contains(Constants.PACKAGE_NAME))) {
-				if (tagHasName) {
+				if (tagHasName || (priority == ERROR && message.contains(Constants.PACKAGE_NAME))) {
 					if (!mBusy) {
 						mBusy = true;
 						
