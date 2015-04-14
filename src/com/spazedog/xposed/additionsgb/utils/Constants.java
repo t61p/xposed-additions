@@ -25,6 +25,7 @@ public final class Constants {
 	public static final String SERVICE_APP_PREFERENCES = "app.additionsgb.preferences.service.BIND";
 	public static final String SERVICE_APP_TORCH = "app.additionsgb.torch.service.TOGGLE";
 	public static final String FILE_APP_PREFERENCES = "config";
+	public static final int LOG_ENTRY_SIZE = 150;
 	
-	public static final boolean FORCE_DEBUG = false;
+	public static final boolean FORCE_DEBUG = true;
 }

@@ -26,12 +26,15 @@ interface ISettingsService {
 
 	int version();
 	boolean isReady();
+	boolean isActive();
 	
 	void addSettingsListener(ISettingsListener listener);
 	void removeSettingsListener(ISettingsListener listener);
 	
 	void sendSettingsBroadcast(String action, in Bundle data);
 	
+	oneway void addLogEntry(String entry);
+	List<String> getLogEntries();
 	
 	/*
 	 * Preferences

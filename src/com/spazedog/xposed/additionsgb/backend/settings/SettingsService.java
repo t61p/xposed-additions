@@ -64,9 +64,13 @@ public final class SettingsService extends ISettingsService.Stub {
 	private int mAppUid = 0;
 	private int mVersion = 0;
 	private boolean mIsReady = false;
+	private boolean mIsActive = false;
 	private SettingsData mData = new SettingsData();
 	private Context mContext;
 	private Set<BinderWatcher> mListeners = new HashSet<BinderWatcher>();
+	
+	private List<String> mLogEntries = new ArrayList<String>();
+	private static List<String> oLogEntriesStatic = new ArrayList<String>();
 	
 	private final class BinderWatcher implements IBinder.DeathRecipient {
 		private IBinder mBinder;
@@ -219,6 +223,20 @@ public final class SettingsService extends ISettingsService.Stub {
 						.findMethod("addService", Match.BEST, String.class, IBinder.class, Boolean.TYPE)
 						.invoke(Constants.SERVICE_MODULE_SETTINGS, SettingsService.this, true);
 				}
+
+				synchronized (oLogEntriesStatic) {
+					for (String entry : oLogEntriesStatic) {
+						mLogEntries.add(entry);
+					}
+				}
+				
+				oLogEntriesStatic.clear();
+				oLogEntriesStatic = null;
+				
+				/*
+				 * The service is now accessible
+				 */
+				mIsActive = true;
 				
 			} catch (ReflectException e) {
 				Utils.log(Level.ERROR, TAG, e.getMessage(), e);
@@ -447,6 +465,15 @@ public final class SettingsService extends ISettingsService.Stub {
 	}
 	
 	/**
+	 * AIDL required method that will return true once the service has been created and stored in the service manager. 
+	 * This means that the service can be accessed, but not everything is ready yet. Preferences for an example has still not been loaded.
+	 */
+	@Override
+	public boolean isActive() {
+		return mIsActive;
+	}
+	
+	/**
 	 * AIDL required method that will return true once the service is fully operational
 	 */
 	@Override
@@ -515,6 +542,53 @@ public final class SettingsService extends ISettingsService.Stub {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void addLogEntry(String entry) {
+		synchronized (mLogEntries) {
+			if (mLogEntries.size() > 150) {
+				/*
+				 * Truncate the list. We remove 15% of Constants.LOG_ENTRY_SIZE entries at a time to avoid having to do this each time this is called
+				 */
+				int truncate = (int) (Constants.LOG_ENTRY_SIZE * 0.15);
+				
+				for (int i=0; i < truncate; i++) {
+					mLogEntries.remove(0);
+				}
+			}
+			
+			mLogEntries.add(entry);
+		}
+	}
+	
+	public static void addLogEntryStatic(String entry) {
+		if (oLogEntriesStatic != null) {
+			synchronized (oLogEntriesStatic) {
+				/*
+				 * This will run in two processes if everything goes as it should. 
+				 * If not it might run in more, and deleting from one process will not delete anything in another. 
+				 * So if this get's above 150 in a process, we don't add any more as this is not meant to be used permanently. 
+				 * This is a temp container used by the LogcatMonitor until the service is active. It only works 
+				 * because it starts running as root and then switches to run as system. The later will inherit from the first. 
+				 */
+				if (oLogEntriesStatic.size() < Constants.LOG_ENTRY_SIZE) {
+					oLogEntriesStatic.add(entry);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public List<String> getLogEntries() {
+		return mLogEntries;
+	}
+	
+	/**
+	 * Can be used by the log UI to get startup errors if the service was never started. 
+	 */
+	public static List<String> getLogEntriesStatic() {
+		return oLogEntriesStatic;
 	}
 
 	

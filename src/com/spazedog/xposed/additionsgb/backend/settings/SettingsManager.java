@@ -43,6 +43,7 @@ public final class SettingsManager {
 	private static WeakReference<SettingsManager> oInstance = new WeakReference<SettingsManager>(null);
 	
 	private volatile ISettingsService mService;
+	private volatile boolean mIsActive = false;
 	private volatile boolean mIsReady = false;
 	private final Map<String, Object> mData = new HashMap<String, Object>();
 	private Set<SettingsBroadcastListener> mListeners = new HashSet<SettingsBroadcastListener>();
@@ -91,7 +92,10 @@ public final class SettingsManager {
 							case Type.LIST: mData.put(key, mService.getStringArrayPreference(key, null));
 						}
 						
-					} catch (RemoteException e) { handleRemoteException(e); }
+					} catch (RemoteException e) { 
+						handleRemoteException(e); 
+						
+					} catch (NullPointerException e) {}
 				}
 			}
 		}
@@ -190,7 +194,8 @@ public final class SettingsManager {
 					
 				} catch (RemoteException e) {
 					handleRemoteException(e);
-				}
+					
+				} catch (NullPointerException e) {}
 			}
 			
 			Object data = mData.get(key);
@@ -234,7 +239,8 @@ public final class SettingsManager {
 			
 		} catch (RemoteException e) {
 			handleRemoteException(e);
-		}
+			
+		} catch (NullPointerException e) {}
 	}
 	
 	public void addSettingsBroadcastListener(SettingsBroadcastListener listener) {
@@ -253,6 +259,22 @@ public final class SettingsManager {
 		}
 	}
 	
+	public boolean isServiceActive() {
+		if (!mIsActive) {
+			try {
+				if (mService.isActive()) {
+					mIsActive = true;
+				}
+			
+			} catch (RemoteException e) {
+				handleRemoteException(e);
+				
+			} catch (NullPointerException e) {}
+		}
+		
+		return mIsReady;
+	}
+	
 	public boolean isServiceReady() {
 		if (!mIsReady) {
 			try {
@@ -262,7 +284,8 @@ public final class SettingsManager {
 			
 			} catch (RemoteException e) {
 				handleRemoteException(e);
-			}
+				
+			} catch (NullPointerException e) {}
 		}
 		
 		return mIsReady;
@@ -275,7 +298,8 @@ public final class SettingsManager {
 			
 			} catch (RemoteException e) {
 				handleRemoteException(e);
-			}
+				
+			} catch (NullPointerException e) {}
 		}
 		
 		return 0;
@@ -287,5 +311,17 @@ public final class SettingsManager {
 	
 	public void setDebugEnabled(boolean enabled) {
 		setPreferenceValue("global.enable_debug", enabled, Type.BOOLEAN, true);
+	}
+	
+	public List<String> getLogEntries() {
+		try {
+			return mService.getLogEntries();
+		
+		} catch (RemoteException e) {
+			handleRemoteException(e);
+			
+		} catch (NullPointerException e) {}
+		
+		return null;
 	}
 }
