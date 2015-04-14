@@ -250,8 +250,6 @@ public final class SettingsService extends ISettingsService.Stub {
 			Utils.log(Level.INFO, TAG, "Finalizig Settings Service");
 
 			try {
-				Context appContext = mContext.createPackageContext(Constants.PACKAGE_NAME, Context.CONTEXT_RESTRICTED);
-				
 				/*
 				 * Get the app uid for access check usage
 				 */
